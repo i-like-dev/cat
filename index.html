@@ -35,6 +35,12 @@
     .generate-button:hover {
       background-color: #0056b3;
     }
+
+    .size-select {
+      margin-top: 10px;
+      padding: 5px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -42,11 +48,20 @@
     <!-- 隨機貓咪圖片 -->
     <img class="cat-image" src="https://via.placeholder.com/400?text=Random+Cat" alt="Random Cat">
     <br>
+    <label for="size-select">選擇圖片大小：</label>
+    <select class="size-select" id="size-select">
+      <option value="200">200 像素</option>
+      <option value="400" selected>400 像素</option>
+      <option value="600">600 像素</option>
+      <option value="800">800 像素</option>
+    </select>
+    <br>
     <button class="generate-button" onclick="getRandomCat()">生成隨機貓咪</button>
   </div>
 
   <script>
     const catImage = document.querySelector(".cat-image");
+    const sizeSelect = document.getElementById("size-select");
 
     async function getRandomCat() {
       const apiKey = "live_5CWxVYX9362HCgcjcyb3xiSwCNRQUyMm8UHX9bQvIEVS6JAChntirQdLfnIUKumb"; // 請替換為你的 API 金鑰
@@ -62,8 +77,10 @@
         const data = await response.json();
 
         if (data && data.length > 0) {
-          catImage.src = data[0].url;
-          catImage.alt = "正在生成貓咪圖片...";
+          const imageUrl = data[0].url;
+          const imageSize = sizeSelect.value || 400;
+          catImage.src = imageUrl.replace(/(https:\/\/via\.placeholder\.com\/)\d+(.+)/, `$1${imageSize}$2`);
+          catImage.alt = "Random Cat";
         }
       } catch (error) {
         console.error("Error fetching cat image:", error);
