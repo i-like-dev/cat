@@ -15,8 +15,14 @@
     }
 
     .cat-image {
+      display: none;
       max-width: 400px;
       border-radius: 8px;
+    }
+
+    .loading-icon {
+      width: 50px;
+      height: 50px;
     }
 
     button {
@@ -38,28 +44,74 @@
 </head>
 <body>
   <div>
+    <!-- loading 圖示 -->
+    <img class="loading-icon" src="loading.gif" alt="Loading...">
+    <!-- 隨機貓咪圖片 -->
     <img class="cat-image" src="" alt="Random Cat">
     <br>
     <button onclick="getRandomCat()">生成隨機貓咪</button>
+    <br>
+    <label for="sizeRange">大小篩選：</label>
+    <input type="range" id="sizeRange" min="200" max="800" step="10" onchange="updateSizeLabel()">
+    <span id="sizeLabel">400</span>
+    <label for="colorSelect">顏色篩選：</label>
+    <select id="colorSelect" onchange="updateColorFilter()">
+      <option value="">不限</option>
+      <option value="gray">灰色</option>
+      <option value="orange">橘色</option>
+      <option value="white">白色</option>
+      <option value="black">黑色</option>
+    </select>
   </div>
 
   <script>
+    let currentWidth = 400; // 初始寬度
+    let currentColor = ""; // 初始顏色
+
     function getRandomSize(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
     function getRandomCat() {
-      const width = getRandomSize(300, 800);
+      const width = currentWidth;
       const height = getRandomSize(200, 600);
       const catImageUrl = `https://placekitten.com/${width}/${height}`;
       
+      const loadingIcon = document.querySelector(".loading-icon");
       const catImage = document.querySelector(".cat-image");
-      catImage.src = catImageUrl;
-      catImage.alt = "Random Cat";
+
+      loadingIcon.style.display = "block";
+      catImage.style.display = "none";
+
+      // 等待圖片載入完成後再顯示
+      const image = new Image();
+      image.onload = function() {
+        catImage.src = catImageUrl;
+        catImage.alt = "Random Cat";
+        loadingIcon.style.display = "none";
+        catImage.style.display = "block";
+      };
+      image.src = catImageUrl;
     }
 
-    // 在網頁載入時顯示一隻隨機貓咪
-    getRandomCat();
+    function updateSizeLabel() {
+      const sizeRange = document.getElementById("sizeRange");
+      const sizeLabel = document.getElementById("sizeLabel");
+      currentWidth = sizeRange.value;
+      sizeLabel.textContent = currentWidth;
+    }
+
+    function updateColorFilter() {
+      const colorSelect = document.getElementById("colorSelect");
+      currentColor = colorSelect.value;
+    }
+
+    // 在網頁載入時顯示 loading 圖示
+    window.addEventListener("load", () => {
+      const loadingIcon = document.querySelector(".loading-icon");
+      loadingIcon.style.display = "block";
+      getRandomCat(); // 呼叫生成隨機貓咪的函式
+    });
   </script>
 </body>
 </html>
