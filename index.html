@@ -19,13 +19,7 @@
       border-radius: 8px;
     }
 
-    .color-filter {
-      margin-top: 10px;
-      padding: 5px;
-      font-size: 16px;
-    }
-
-    .download-button {
+    .generate-button {
       margin-top: 10px;
       padding: 10px 20px;
       font-size: 16px;
@@ -37,18 +31,17 @@
       transition: background-color 0.2s ease;
     }
 
-    .download-button:hover {
+    .generate-button:hover {
       background-color: #0056b3;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
   <div>
     <!-- 隨機貓咪圖片 -->
     <img class="cat-image" src="" alt="Random Cat">
     <br>
-    <button onclick="getRandomCat()">生成隨機貓咪</button>
+    <button class="generate-button" onclick="getRandomCat()">生成隨機貓咪</button>
     <br>
     <select class="color-filter" onchange="updateColorFilter()">
       <option value="">不限顏色</option>
@@ -57,10 +50,8 @@
       <option value="orange">橘色</option>
       <option value="white">白色</option>
     </select>
-    <br>
-    <button class="download-button" onclick="downloadCat()">下載貓咪圖片</button>
   </div>
-  
+
   <script>
     let currentColorFilter = "";
 
@@ -83,19 +74,6 @@
       const colorFilter = document.querySelector(".color-filter");
       currentColorFilter = colorFilter.value;
       getRandomCat();
-    }
-
-    function downloadCat() {
-      const catImage = document.querySelector(".cat-image");
-      const imageSource = catImage.src;
-      const imageName = "random_cat.jpg"; // 可自行更改圖片檔名
-
-      fetch(imageSource)
-        .then(response => response.blob())
-        .then(blob => {
-          saveAs(blob, imageName);
-        })
-        .catch(error => console.error("Error downloading cat image:", error));
     }
 
     window.addEventListener("load", getRandomCat);
