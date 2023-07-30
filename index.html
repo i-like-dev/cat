@@ -43,22 +43,18 @@
   </div>
 
   <script>
+    function getRandomSize(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
     function getRandomCat() {
-      fetch("https://cataas.com/cat", { cache: "no-store" })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.blob();
-        })
-        .then(blob => {
-          const catImage = document.querySelector(".cat-image");
-          catImage.src = URL.createObjectURL(blob);
-          catImage.alt = "隨機貓咪照片，請點選下方按鈕來生成";
-        })
-        .catch(error => {
-          console.error("Error fetching cat image:", error);
-        });
+      const width = getRandomSize(300, 800);
+      const height = getRandomSize(200, 600);
+      const catImageUrl = `https://placekitten.com/${width}/${height}`;
+      
+      const catImage = document.querySelector(".cat-image");
+      catImage.src = catImageUrl;
+      catImage.alt = "Random Cat";
     }
   </script>
 </body>
