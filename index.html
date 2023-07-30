@@ -15,17 +15,17 @@
     }
 
     .cat-image {
-      display: none;
       max-width: 400px;
       border-radius: 8px;
     }
 
-    .loading-icon {
-      width: 50px;
-      height: 50px;
+    .color-filter {
+      margin-top: 10px;
+      padding: 5px;
+      font-size: 16px;
     }
 
-    button {
+    .download-button {
       margin-top: 10px;
       padding: 10px 20px;
       font-size: 16px;
@@ -37,84 +37,65 @@
       transition: background-color 0.2s ease;
     }
 
-    button:hover {
+    .download-button:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
 <body>
   <div>
-    <!-- loading 圖示 -->
-    <img class="loading-icon" src="loading.gif" alt="Loading...">
     <!-- 隨機貓咪圖片 -->
     <img class="cat-image" src="" alt="Random Cat">
     <br>
     <button onclick="getRandomCat()">生成隨機貓咪</button>
     <br>
-    <label for="sizeSelect">大小篩選：</label>
-    <select id="sizeSelect" onchange="updateSizeFilter()">
-      <option value="">不限</option>
-      <option value="300x200">300x200</option>
-      <option value="400x300">400x300</option>
-      <option value="500x400">500x400</option>
-      <option value="600x500">600x500</option>
-    </select>
-    <br>
-    <label for="colorSelect">顏色篩選：</label>
-    <select id="colorSelect" onchange="updateColorFilter()">
-      <option value="">不限</option>
+    <select class="color-filter" onchange="updateColorFilter()">
+      <option value="">不限顏色</option>
+      <option value="black">黑色</option>
       <option value="gray">灰色</option>
       <option value="orange">橘色</option>
       <option value="white">白色</option>
-      <option value="black">黑色</option>
     </select>
+    <br>
+    <button class="download-button" onclick="downloadCat()">下載貓咪圖片</button>
   </div>
 
   <script>
-    let currentSize = "";
-    let currentColor = "";
-
-    function getRandomSize(min, max) {
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    }
+    let currentColorFilter = "";
 
     function getRandomCat() {
-      const size = currentSize ? currentSize.split("x") : [getRandomSize(300, 800), getRandomSize(200, 600)];
-      const width = size[0];
-      const height = size[1];
-      const catImageUrl = currentColor ? `https://placekitten.com/g/${width}/${height}` : `https://placekitten.com/${width}/${height}`;
-      
-      const loadingIcon = document.querySelector(".loading-icon");
-      const catImage = document.querySelector(".cat-image");
+      const apiUrl = currentColorFilter
+        ? `https://api.thecatapi.com/v1/images/search?limit=1&size=full&category_ids=${currentColorFilter}`
+        : "https://api.thecatapi.com/v1/images/search?limit=1&size=full";
 
-      loadingIcon.style.display = "block";
-      catImage.style.display = "none";
-
-      const image = new Image();
-      image.onload = function() {
-        catImage.src = catImageUrl;
-        catImage.alt = "Random Cat";
-        loadingIcon.style.display = "none";
-        catImage.style.display = "block";
-      };
-      image.src = catImageUrl;
-    }
-
-    function updateSizeFilter() {
-      const sizeSelect = document.getElementById("sizeSelect");
-      currentSize = sizeSelect.value;
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const catImage = document.querySelector(".cat-image");
+          catImage.src = data[0].url;
+          catImage.alt = "Random Cat";
+        })
+        .catch(error => console.error("Error fetching cat image:", error));
     }
 
     function updateColorFilter() {
-      const colorSelect = document.getElementById("colorSelect");
-      currentColor = colorSelect.value;
+      const colorFilter = document.querySelector(".color-filter");
+      currentColorFilter = colorFilter.value;
+      getRandomCat();
     }
 
-    window.addEventListener("load", () => {
-      const loadingIcon = document.querySelector(".loading-icon");
-      loadingIcon.style.display = "block";
-      getRandomCat();
-    });
+    function downloadCat() {
+      const catImage = document.querySelector(".cat-image");
+      const imageSource = catImage.src;
+      const imageName = "random_cat.jpg"; // 可自行更改圖片檔名
+
+      const downloadLink = document.createElement("a");
+      downloadLink.href = imageSource;
+      downloadLink.download = imageName;
+      downloadLink.click();
+    }
+
+    window.addEventListener("load", getRandomCat);
   </script>
 </body>
 </html>
