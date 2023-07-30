@@ -41,7 +41,8 @@
     <!-- 隨機貓咪圖片 -->
     <img class="cat-image" src="" alt="Random Cat">
     <br>
-    <select class="color-filter" onchange="updateColorFilter()">
+    <label for="color-filter">貓咪顏色篩選：</label>
+    <select id="color-filter" onchange="updateColorFilter()">
       <option value="">不限顏色</option>
       <option value="black">黑色</option>
       <option value="gray">灰色</option>
@@ -71,7 +72,7 @@
     }
 
     function updateColorFilter() {
-      const colorFilter = document.querySelector(".color-filter");
+      const colorFilter = document.getElementById("color-filter");
       currentColorFilter = colorFilter.value;
     }
 
