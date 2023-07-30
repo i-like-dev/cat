@@ -35,6 +35,10 @@
     .generate-button:hover {
       background-color: #0056b3;
     }
+
+    .color-picker {
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -44,11 +48,11 @@
     <br>
     <label for="color-picker">調整貓咪顏色：</label>
     <select id="color-picker" onchange="changeCatColor()">
-      <option value="random" selected>隨機顏色</option>
-      <option value="0">0 度</option>
-      <option value="90">90 度</option>
-      <option value="180">180 度</option>
-      <option value="270">270 度</option>
+      <option value="random">不限顏色</option>
+      <option value="0">黑色</option>
+      <option value="120">灰色</option>
+      <option value="30">橘色</option>
+      <option value="180">白色</option>
     </select>
     <br>
     <button class="generate-button" onclick="getRandomCat()">生成隨機貓咪</button>
@@ -56,6 +60,7 @@
 
   <script>
     const catImage = document.querySelector(".cat-image");
+    const colorPicker = document.getElementById("color-picker");
     let currentColor = "random";
 
     function getRandomCat() {
@@ -64,10 +69,10 @@
       // 由於我們無法真正獲取隨機貓咪圖片，所以在這個範例中直接使用靜態的貓咪圖片
       catImage.src = "https://via.placeholder.com/400";
       catImage.alt = "Random Cat";
+      colorPicker.value = "random";
     }
 
     function changeCatColor() {
-      const colorPicker = document.getElementById("color-picker");
       currentColor = colorPicker.value;
       if (currentColor === "random") {
         // 隨機顏色
@@ -80,6 +85,11 @@
 
     // 進入頁面時顯示一隻隨機貓咪
     getRandomCat();
+
+    // 顯示彈跳視窗
+    window.onload = function() {
+      alert("本網站照片僅供分享。");
+    };
   </script>
 </body>
 </html>
