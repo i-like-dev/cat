@@ -41,6 +41,7 @@
       background-color: #0056b3;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
   <div>
@@ -89,10 +90,12 @@
       const imageSource = catImage.src;
       const imageName = "random_cat.jpg"; // 可自行更改圖片檔名
 
-      const downloadLink = document.createElement("a");
-      downloadLink.href = imageSource;
-      downloadLink.download = imageName;
-      downloadLink.click();
+      fetch(imageSource)
+        .then(response => response.blob())
+        .then(blob => {
+          saveAs(blob, imageName);
+        })
+        .catch(error => console.error("Error downloading cat image:", error));
     }
 
     window.addEventListener("load", getRandomCat);
