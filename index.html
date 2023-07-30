@@ -67,9 +67,8 @@
       // 這裡可以使用你的隨機貓咪生成 API 或其他方式獲取圖片 URL
       // 例如: catImage.src = "https://example.com/random-cat-image";
       // 由於我們無法真正獲取隨機貓咪圖片，所以在這個範例中直接使用靜態的貓咪圖片
-      catImage.src = "https://via.placeholder.com/400";
+      catImage.src = "https://via.placeholder.com/400?text=Random+Cat";
       catImage.alt = "Random Cat";
-      colorPicker.value = "random";
     }
 
     function changeCatColor() {
@@ -88,7 +87,7 @@
 
     // 顯示彈跳視窗
     window.onload = function() {
-      alert("本網站照片僅供分享。");
+      alert("本網站照片僅供分享。圖片來源：網路");
     };
   </script>
 </body>
