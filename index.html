@@ -42,7 +42,7 @@
     <img class="cat-image" src="" alt="Random Cat">
     <br>
     <label for="color-filter">貓咪顏色篩選：</label>
-    <select id="color-filter" onchange="updateColorFilter()">
+    <select id="color-filter" onchange="getRandomCat()">
       <option value="">不限顏色</option>
       <option value="black">黑色</option>
       <option value="gray">灰色</option>
@@ -54,12 +54,13 @@
   </div>
 
   <script>
+    const apiKey = "live_5CWxVYX9362HCgcjcyb3xiSwCNRQUyMm8UHX9bQvIEVS6JAChntirQdLfnIUKumb";
     let currentColorFilter = "";
 
     function getRandomCat() {
       const apiUrl = currentColorFilter
-        ? `https://api.thecatapi.com/v1/images/search?limit=1&size=full&category_ids=${currentColorFilter}`
-        : "https://api.thecatapi.com/v1/images/search?limit=1&size=full";
+        ? `https://api.thecatapi.com/v1/images/search?limit=1&size=full&mime_types=jpg,png&category_ids=${currentColorFilter}&api_key=${apiKey}`
+        : `https://api.thecatapi.com/v1/images/search?limit=1&size=full&mime_types=jpg,png&api_key=${apiKey}`;
 
       fetch(apiUrl)
         .then(response => response.json())
@@ -74,6 +75,7 @@
     function updateColorFilter() {
       const colorFilter = document.getElementById("color-filter");
       currentColorFilter = colorFilter.value;
+      getRandomCat();
     }
 
     window.addEventListener("load", getRandomCat);
