@@ -17,11 +17,9 @@
     .cat-image {
       max-width: 400px;
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .generate-button {
-      margin-top: 10px;
+    button {
       padding: 10px 20px;
       font-size: 16px;
       border: none;
@@ -32,63 +30,33 @@
       transition: background-color 0.2s ease;
     }
 
-    .generate-button:hover {
+    button:hover {
       background-color: #0056b3;
-    }
-
-    .color-picker {
-      margin-top: 10px;
     }
   </style>
 </head>
 <body>
   <div>
-    <!-- 隨機貓咪圖片 -->
     <img class="cat-image" src="" alt="Random Cat">
     <br>
-    <label for="color-picker">調整貓咪顏色：</label>
-    <select id="color-picker" onchange="changeCatColor()">
-      <option value="random">不限顏色</option>
-      <option value="0">黑色</option>
-      <option value="120">灰色</option>
-      <option value="30">橘色</option>
-      <option value="180">白色</option>
-    </select>
-    <br>
-    <button class="generate-button" onclick="getRandomCat()">生成隨機貓咪</button>
+    <button onclick="getRandomCat()">顯示隨機貓咪</button>
   </div>
 
   <script>
-    const catImage = document.querySelector(".cat-image");
-    const colorPicker = document.getElementById("color-picker");
-    let currentColor = "random";
+    const catImages = [
+      "https://placekitten.com/400/300",
+      "https://placekitten.com/500/350",
+      "https://placekitten.com/600/400",
+      "https://placekitten.com/450/350",
+      // Add more cat image URLs here
+    ];
 
     function getRandomCat() {
-      // 這裡可以使用你的隨機貓咪生成 API 或其他方式獲取圖片 URL
-      // 例如: catImage.src = "https://example.com/random-cat-image";
-      // 由於我們無法真正獲取隨機貓咪圖片，所以在這個範例中直接使用靜態的貓咪圖片
-      catImage.src = "https://via.placeholder.com/400?text=Random+Cat";
+      const randomIndex = Math.floor(Math.random() * catImages.length);
+      const catImage = document.querySelector(".cat-image");
+      catImage.src = catImages[randomIndex];
       catImage.alt = "Random Cat";
     }
-
-    function changeCatColor() {
-      currentColor = colorPicker.value;
-      if (currentColor === "random") {
-        // 隨機顏色
-        catImage.style.filter = "hue-rotate(" + Math.floor(Math.random() * 360) + "deg)";
-      } else {
-        // 固定角度顏色
-        catImage.style.filter = "hue-rotate(" + currentColor + "deg)";
-      }
-    }
-
-    // 進入頁面時顯示一隻隨機貓咪
-    getRandomCat();
-
-    // 顯示彈跳視窗
-    window.onload = function() {
-      alert("本網站照片僅供分享。圖片來源：網路");
-    };
   </script>
 </body>
 </html>
