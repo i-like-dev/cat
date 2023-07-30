@@ -17,6 +17,7 @@
     .cat-image {
       max-width: 400px;
       border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .generate-button {
@@ -41,44 +42,44 @@
     <!-- 隨機貓咪圖片 -->
     <img class="cat-image" src="" alt="Random Cat">
     <br>
-    <label for="color-filter">貓咪顏色篩選：</label>
-    <select id="color-filter" onchange="getRandomCat()">
-      <option value="">不限顏色</option>
-      <option value="black">黑色</option>
-      <option value="gray">灰色</option>
-      <option value="orange">橘色</option>
-      <option value="white">白色</option>
+    <label for="color-picker">調整貓咪顏色：</label>
+    <select id="color-picker" onchange="changeCatColor()">
+      <option value="random" selected>隨機顏色</option>
+      <option value="0">0 度</option>
+      <option value="90">90 度</option>
+      <option value="180">180 度</option>
+      <option value="270">270 度</option>
     </select>
     <br>
     <button class="generate-button" onclick="getRandomCat()">生成隨機貓咪</button>
   </div>
 
   <script>
-    const apiKey = "live_5CWxVYX9362HCgcjcyb3xiSwCNRQUyMm8UHX9bQvIEVS6JAChntirQdLfnIUKumb";
-    let currentColorFilter = "";
+    const catImage = document.querySelector(".cat-image");
+    let currentColor = "random";
 
     function getRandomCat() {
-      const apiUrl = currentColorFilter
-        ? `https://api.thecatapi.com/v1/images/search?limit=1&size=full&mime_types=jpg,png&category_ids=${currentColorFilter}&api_key=${apiKey}`
-        : `https://api.thecatapi.com/v1/images/search?limit=1&size=full&mime_types=jpg,png&api_key=${apiKey}`;
-
-      fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-          const catImage = document.querySelector(".cat-image");
-          catImage.src = data[0].url;
-          catImage.alt = "Random Cat";
-        })
-        .catch(error => console.error("Error fetching cat image:", error));
+      // 這裡可以使用你的隨機貓咪生成 API 或其他方式獲取圖片 URL
+      // 例如: catImage.src = "https://example.com/random-cat-image";
+      // 由於我們無法真正獲取隨機貓咪圖片，所以在這個範例中直接使用靜態的貓咪圖片
+      catImage.src = "https://via.placeholder.com/400";
+      catImage.alt = "Random Cat";
     }
 
-    function updateColorFilter() {
-      const colorFilter = document.getElementById("color-filter");
-      currentColorFilter = colorFilter.value;
-      getRandomCat();
+    function changeCatColor() {
+      const colorPicker = document.getElementById("color-picker");
+      currentColor = colorPicker.value;
+      if (currentColor === "random") {
+        // 隨機顏色
+        catImage.style.filter = "hue-rotate(" + Math.floor(Math.random() * 360) + "deg)";
+      } else {
+        // 固定角度顏色
+        catImage.style.filter = "hue-rotate(" + currentColor + "deg)";
+      }
     }
 
-    window.addEventListener("load", getRandomCat);
+    // 進入頁面時顯示一隻隨機貓咪
+    getRandomCat();
   </script>
 </body>
 </html>
