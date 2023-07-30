@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>隨機貓咪圖片</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f1f1f1;
+    }
+
+    .cat-image {
+      max-width: 400px;
+      border-radius: 8px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <img class="cat-image" src="" alt="Random Cat">
+    <br>
+    <button onclick="getRandomCat()">顯示隨機貓咪</button>
+  </div>
+
+  <script>
+    function getRandomCat() {
+      fetch("https://cataas.com/cat", { cache: "no-store" })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.blob();
+        })
+        .then(blob => {
+          const catImage = document.querySelector(".cat-image");
+          catImage.src = URL.createObjectURL(blob);
+          catImage.alt = "Random Cat";
+        })
+        .catch(error => {
+          console.error("Error fetching cat image:", error);
+        });
+    }
+  </script>
+</body>
+</html>
