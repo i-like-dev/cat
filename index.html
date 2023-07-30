@@ -54,7 +54,7 @@
         .then(blob => {
           const catImage = document.querySelector(".cat-image");
           catImage.src = URL.createObjectURL(blob);
-          catImage.alt = "Random Cat";
+          catImage.alt = "隨機貓咪照片，請點選下方按鈕來生成";
         })
         .catch(error => {
           console.error("Error fetching cat image:", error);
