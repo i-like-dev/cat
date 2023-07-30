@@ -20,6 +20,7 @@
     }
 
     button {
+      margin-top: 10px;
       padding: 10px 20px;
       font-size: 16px;
       border: none;
@@ -39,7 +40,7 @@
   <div>
     <img class="cat-image" src="" alt="Random Cat">
     <br>
-    <button onclick="getRandomCat()">顯示隨機貓咪</button>
+    <button onclick="getRandomCat()">生成隨機貓咪</button>
   </div>
 
   <script>
@@ -56,6 +57,9 @@
       catImage.src = catImageUrl;
       catImage.alt = "Random Cat";
     }
+
+    // 在網頁載入時顯示一隻隨機貓咪
+    getRandomCat();
   </script>
 </body>
 </html>
