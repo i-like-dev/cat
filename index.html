@@ -71,8 +71,7 @@
 
         if (data && data.length > 0) {
           const imageUrl = data[0].url;
-          const imageSize = sizeSelect.value || 400;
-          catImage.src = imageUrl.replace(/(https:\/\/via\.placeholder\.com\/)\d+(.+)/, `$1${imageSize}$2`);
+          catImage.src = imageUrl.replace(/(https:\/\/via\.placeholder\.com\/)\d+(.+)/);
           catImage.alt = "Random Cat";
         }
       } catch (error) {
